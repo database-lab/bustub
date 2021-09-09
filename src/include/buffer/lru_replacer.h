@@ -15,11 +15,18 @@
 #include <list>
 #include <mutex>  // NOLINT
 #include <vector>
+#include <unordered_map>
 
 #include "buffer/replacer.h"
 #include "common/config.h"
 
 namespace bustub {
+
+struct Frame {
+  frame_id_t id_;
+  bool ref_bit_;
+  Frame(frame_id_t id) :id_(id), ref_bit_(true) {}
+};
 
 /**
  * LRUReplacer implements the lru replacement policy, which approximates the Least Recently Used policy.
@@ -47,6 +54,10 @@ class LRUReplacer : public Replacer {
 
  private:
   // TODO(student): implement me!
+  std::mutex mutex_;
+  size_t num_pages_;
+  std::list<frame_id_t> frames_;
+  std::unordered_map<frame_id_t, std::list<frame_id_t>::iterator> frame_tables_;
 };
 
 }  // namespace bustub

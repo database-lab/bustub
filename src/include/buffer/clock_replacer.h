@@ -21,6 +21,13 @@
 
 namespace bustub {
 
+struct Frame {
+  frame_id_t id_;
+  bool ref_bit_;
+  bool in_recently_clock_;
+  Frame(frame_id_t id) :id_(id), ref_bit_(false), in_recently_clock_(false) {}
+};
+
 /**
  * ClockReplacer implements the clock replacement policy, which approximates the Least Recently Used policy.
  */
@@ -47,6 +54,10 @@ class ClockReplacer : public Replacer {
 
  private:
   // TODO(student): implement me!
+  std::vector<Frame> frames_;
+  size_t clock_hand_;
+  size_t victims_;
+  std::mutex mutex_;
 };
 
 }  // namespace bustub
